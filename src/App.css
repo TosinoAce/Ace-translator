@@ -71,7 +71,7 @@ button {
   background-color: #fafafa;
   border: none;
   border-radius: 8px;
-  padding: 10px;
+  padding: 5px;
   cursor: pointer;
 }
 .error {
@@ -146,6 +146,6 @@ select {
     display: none;
   }
   .message {
-    max-width: 85%;
+    max-width: 100%;
   }
 }

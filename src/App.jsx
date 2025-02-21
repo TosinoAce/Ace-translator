@@ -45,16 +45,14 @@ function App() {
   };
 
   const handleTranslate = async (id) => {
-    const targetLang = selectedLanguages[id]; // Get selected language from state
+    const targetLang = selectedLanguages[id];
     if (!targetLang) {
-      alert("Please select a language.");
       return;
     }
 
     const messageIndex = messages.findIndex((msg) => msg.id === id);
     const message = messages[messageIndex];
     if (!message.detectedLanguage || message.detectedLanguage.code === targetLang) {
-      alert("Text is already in the target language.");
       return;
     }
 
@@ -77,10 +75,11 @@ function App() {
       setMessages(updatedMessages);
     } catch (error) {
       console.error("Translation error:", error);
-      alert(`Translation error: ${error.message}`);
+      const updatedMessages = [...messages];
+      updatedMessages[messageIndex].translation = `Error: ${error.message}`;
+      setMessages(updatedMessages);
     }
   };
-
   const handleSummarize = async (id) => {
     const messageIndex = messages.findIndex((msg) => msg.id === id);
     const message = messages[messageIndex];
