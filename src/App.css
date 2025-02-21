@@ -137,7 +137,8 @@ select {
 
 @media (max-width: 600px) {
   .chat-container {
-    width: 370px;
+    width: 100vw;
+    height: 100vh;
     margin-top: 0px;
     border-radius: 0px;
   }
