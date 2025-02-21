@@ -5,6 +5,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  transition: 0.4s ease-in-out;
 }
 *:focus-visible{
     outline: 2px solid #24d60c;

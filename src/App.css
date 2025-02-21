@@ -134,7 +134,20 @@ select {
 #send-btn-container img {
   width: 80px;
 }
-
+#send-btn-container button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fafafa;
+  border: 1px solid #1a6cb6;
+  cursor: pointer;
+}
+#send-btn-container button:hover{
+  transform: scale(1.05);
+}
+#send-btn-container button img{
+  width: 30px;
+}
 @media (max-width: 600px) {
   .chat-container {
     width: 100vw;

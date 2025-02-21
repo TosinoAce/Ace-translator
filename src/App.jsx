@@ -65,7 +65,11 @@ function App() {
       );
       return;
     }
-  
+    setMessages((prevMessages) =>
+      prevMessages.map((msg) =>
+        msg.id === id ? { ...msg, translation: "Translating..." } : msg
+      )
+    );
     const messageIndex = messages.findIndex((msg) => msg.id === id);
     const message = messages[messageIndex];
   
@@ -128,7 +132,11 @@ function App() {
       alert("Summarization is only available for English text.");
       return;
     }
-  
+    setMessages((prevMessages) =>
+      prevMessages.map((msg) =>
+        msg.id === id ? { ...msg, summary: "Summarizing..." } : msg
+      )
+    );
     try {
       const summarizerCapabilities = await self.ai.summarizer.capabilities();
       if (summarizerCapabilities.available === "no") {
@@ -215,7 +223,7 @@ function App() {
         <div className="input-area">
           <textarea value={inputText} onChange={(e) => setInputText(e.target.value)} placeholder="Type your text..." aria-label="input your text for proccessing here"/>
           <div id="send-btn-container">
-            <button onClick={handleSend} tabIndex={0} aria-label="click to send your text for proccessing">Send</button>
+            <button onClick={handleSend} tabIndex={0} aria-label="click to send your text for proccessing"><img src="/paper-plane.png" alt="sebd icon" /></button>
             <img src="/logo.png" alt="ai logo image" />
           </div>
         </div>
