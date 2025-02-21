@@ -8,7 +8,6 @@ function App() {
 
   const handleSend = async () => {
     if (!inputText.trim()) {
-      alert("Please enter text.");
       return;
     }
 
