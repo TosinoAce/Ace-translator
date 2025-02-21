@@ -40,7 +40,7 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .chat-box::-webkit-scrollbar {
   width: 5px;

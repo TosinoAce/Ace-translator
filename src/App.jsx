@@ -11,6 +11,8 @@ function App() {
       return;
     }
 
+    // handling lsngusge detection
+    
     const detectLanguage = async (text) => {
       try {
         const detectorCapabilities = await self.ai.languageDetector.capabilities();
@@ -51,6 +53,8 @@ function App() {
     setInputText("");
   };
 
+  // handling translation 
+
   const handleTranslate = async (id) => {
     const targetLang = selectedLanguages[id]; 
     if (!targetLang) {
@@ -74,7 +78,8 @@ function App() {
       return;
     }
   
-    // Check if translation API is available
+    // Checking  if translation API is available
+
     if (!self.ai || !self.ai.translator) {
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
@@ -112,6 +117,9 @@ function App() {
       );
     }
   };
+
+  // handling summarization
+  
   const handleSummarize = async (id) => {
     const messageIndex = messages.findIndex((msg) => msg.id === id);
     const message = messages[messageIndex];
