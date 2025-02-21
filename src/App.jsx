@@ -14,7 +14,12 @@ function App() {
     const detectLanguage = async (text) => {
       try {
         const detectorCapabilities = await self.ai.languageDetector.capabilities();
-        if (detectorCapabilities.available === "no") return null;
+        if (detectorCapabilities.available === "no") {
+          return {
+            code: "unknown",
+            readable: "Language detection API not available",
+          };
+        }
         const detector = await self.ai.languageDetector.create();
         await detector.ready;
         const detectedLanguages = await detector.detect(text);
@@ -26,9 +31,12 @@ function App() {
         };
       } catch (error) {
         console.error("Language detection error:", error);
-        return null;
+        return {
+          code: "unknown",
+          readable: "Language detection failed",
+        };
       }
-    };
+    };    
 
     const detectedLanguage = await detectLanguage(inputText);
 
@@ -107,33 +115,40 @@ function App() {
   const handleSummarize = async (id) => {
     const messageIndex = messages.findIndex((msg) => msg.id === id);
     const message = messages[messageIndex];
+  
     if (message.detectedLanguage.code !== "en") {
       alert("Summarization is only available for English text.");
       return;
     }
-
+  
     try {
       const summarizerCapabilities = await self.ai.summarizer.capabilities();
-      if (summarizerCapabilities.available === "no") throw new Error("Summarizer API is not available.");
-
+      if (summarizerCapabilities.available === "no") {
+        throw new Error("Summarization API not available.");
+      }
+  
       const summarizer = await self.ai.summarizer.create({
         sharedContext: "This is an English text that needs summarization.",
         type: "key-points",
         format: "markdown",
         length: "short",
       });
-
+  
       await summarizer.ready;
       const result = await summarizer.summarize(message.text, { context: "Summarizing the key points." });
-
+  
       const updatedMessages = [...messages];
       updatedMessages[messageIndex].summary = result;
       setMessages(updatedMessages);
     } catch (error) {
       console.error("Summarization error:", error);
-      alert(`Summarization error: ${error.message}`);
+  
+      const updatedMessages = [...messages];
+      updatedMessages[messageIndex].summary = error.message;
+      setMessages(updatedMessages);
     }
   };
+  
 
   return (
     <section>
