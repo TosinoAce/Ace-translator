@@ -44,39 +44,64 @@ function App() {
   };
 
   const handleTranslate = async (id) => {
-    const targetLang = selectedLanguages[id];
+    const targetLang = selectedLanguages[id]; 
     if (!targetLang) {
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === id ? { ...msg, translation: "Please select a language." } : msg
+        )
+      );
       return;
     }
-
+  
     const messageIndex = messages.findIndex((msg) => msg.id === id);
     const message = messages[messageIndex];
+  
     if (!message.detectedLanguage || message.detectedLanguage.code === targetLang) {
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === id ? { ...msg, translation: "Text is already in the target language." } : msg
+        )
+      );
       return;
     }
-
+  
+    // Check if translation API is available
+    if (!self.ai || !self.ai.translator) {
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === id ? { ...msg, translation: "Translation API not available." } : msg
+        )
+      );
+      return;
+    }
+  
     try {
       const translatorCapabilities = await self.ai.translator.capabilities();
       const available = translatorCapabilities.languagePairAvailable(message.detectedLanguage.code, targetLang);
-
+  
       if (available === "no") throw new Error("Unable to translate between selected languages.");
-
+  
       const translator = await self.ai.translator.create({
         sourceLanguage: message.detectedLanguage.code,
         targetLanguage: targetLang,
       });
-
+  
       await translator.ready;
       const result = await translator.translate(message.text);
-
-      const updatedMessages = [...messages];
-      updatedMessages[messageIndex].translation = result;
-      setMessages(updatedMessages);
+  
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === id ? { ...msg, translation: result } : msg
+        )
+      );
     } catch (error) {
       console.error("Translation error:", error);
-      const updatedMessages = [...messages];
-      updatedMessages[messageIndex].translation = `Error: ${error.message}`;
-      setMessages(updatedMessages);
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === id ? { ...msg, translation: `Translation error: ${error.message}` } : msg
+        )
+      );
     }
   };
   const handleSummarize = async (id) => {
