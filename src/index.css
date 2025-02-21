@@ -1,13 +1,25 @@
-@import url('https://fonts.cdnfonts.com/css/poppins');
-*{
-    font-family: "Poppins", sans-serif;
-
+@import url("https://fonts.cdnfonts.com/css/poppins");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-body{
-    background-image: url(/BG1.jpg);
-    background-position: center;
-    background-size: cover;
-    overflow: hidden;
-    width: 100%;
-    max-height: 100vh;
+*:focus-visible{
+    outline: 2px solid #24d60c;
+    outline-offset: 2px;
+}
+body {
+  background-image: url(/BG1.jpg);
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+  width: 100%;
+  max-height: 100vh;
+}
+
+@media (max-width: 600px) {
+  p {
+    font-size: 13px;
+  }
 }
